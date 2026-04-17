@@ -2,18 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Status
+## Workspace layout
 
-Repository is a fresh scaffold — only README and .gitignore exist. No source code, package manifests, or build tooling are present yet.
+Monorepo with two independent npm projects as siblings. No workspaces, no lerna, no shared package — each project has its own `package.json` and `node_modules/`.
 
-## Intended stack
+- `mobile/` — Expo React Native app (TypeScript, blank template)
+- `backend/` — NestJS app (TypeScript, default scaffold)
 
-Per README: React Native (Expo) client + NestJS server.
+## Commands
 
-## To fill in once code lands
+Mobile (`cd mobile`):
+- `npx expo start` — dev server (Metro; scan QR with Expo Go, or press `i` / `a`)
+- `npx expo run:android` — build and run on a connected Android device/emulator
 
-- **Commands**: install, dev server (Expo + Nest), build, test (including single-test invocation), lint, typecheck.
-- **Workspace layout**: monorepo vs. split repos, package manager, how client and server are wired together.
-- **Architecture**: client ↔ server boundary, auth model, data layer, shared types, env-var conventions.
+Backend (`cd backend`):
+- `npm run start:dev` — Nest dev server with watch mode
 
-Update this file as soon as the first working commands exist — don't let future Claude instances guess.
+## Architecture
+
+- Mobile calls backend via REST over HTTP.
+- Backend proxies requests to the Claude API (Anthropic SDK); the API key never leaves the server.
+- No shared types package yet — if a contract grows, duplicate types on both sides or add a `shared/` package later.
+
+## Env vars
+
+- `backend/.env` holds `ANTHROPIC_API_KEY`. `.env` is gitignored at the repo root.
+- Mobile does not need any env vars for now; it will hit the backend at a hardcoded dev URL.
