@@ -1,13 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BellySafeScreen } from './src/screens/BellySafeScreen';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.root}>
-      <StatusBar style="dark" />
-      <BellySafeScreen />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.root}>
+        <StatusBar style="dark" />
+        <BellySafeScreen />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
